@@ -2,7 +2,7 @@
 Servo myServo;
 const int dangerousSignal = 4;
 const int warningSignal = 17;
-const int safetySignal = 2;
+const int safetySignal = 5;
 const int countingDownSignal = 16;
 const int SensorPin = 32;
 const long interval = 1000;
@@ -34,7 +34,7 @@ void loop() {
   if (currentMillis - previousMillis >= interval)
   {previousMillis= currentMillis;
   int rawADC = analogRead(SensorPin);
-  long Temperature = map(rawADC, 0, 4095, 20, 140);
+  long Temperature = map(rawADC, 0, 4095, 0, 200);
   if (tripped) 
   {
     if (Temperature < resetTemp)
@@ -70,9 +70,13 @@ void loop() {
     faultStartTime = currentMillis;
   }
   unsigned long elapsed = currentMillis - faultStartTime;
-  unsigned long waitTime = 2000/(1+Temperature-tripTemp);
+  unsigned long waitTime = 100000/(1+Temperature-tripTemp);
     if (elapsed >= waitTime){
       tripped = true;
+      Serial.println(Temperature);
+      Serial.println("TRIP elapsed time: "); 
+      Serial.println(elapsed);
+      Serial.println("ms");
      myServo.write(90);
      digitalWrite(dangerousSignal, HIGH);
      digitalWrite(countingDownSignal, LOW);
@@ -108,6 +112,8 @@ void loop() {
   digitalWrite(safetySignal, HIGH);
   Serial.println("System is operating");
     }
+    
+
   }
 }
 }
