@@ -4,7 +4,7 @@ A microcontroller-based simulation of an overcurrent-style protective relay, imp
 
 ▶ **Live demo (Wokwi):** https://wokwi.com/projects/476162989825479681
 
-![Circuit screenshot](Can be found in my repo.)
+![Circuit screenshot](First_Diagram.png)
 
 ## Why this project
 Most student "sensor + LED alarm" projects trip instantly at a threshold and reset just as instantly. Real protection relays do neither: a mild, brief overage gets a longer delay (it might be a transient), a severe fault trips almost immediately, and once tripped, the system **latches** — it doesn't silently re-close itself the moment conditions improve slightly. This project implements all three behaviors, using temperature as a stand-in for fault current.
